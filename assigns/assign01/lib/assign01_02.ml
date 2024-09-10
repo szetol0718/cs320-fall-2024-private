@@ -1,5 +1,5 @@
 let is_prime n =
-  let go i =
+  let rec go i =
     if i = n then
       true
     else if n mod i = 0 then
