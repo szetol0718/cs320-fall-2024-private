@@ -17,4 +17,4 @@ let nth_prime n =
       else if is_prime current then find_prime (count + 1) (current + 1)
       else find_prime count (current + 1)
     in
-    find_prime 0 
+    find_prime 0 2

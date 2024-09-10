@@ -6,4 +6,4 @@ let nth s i =
     else help (s/prime) prime (count+1)
   in
 let prime = nth_prime i in 
-help s prime 
+help s prime 0

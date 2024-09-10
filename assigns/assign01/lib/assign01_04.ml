@@ -1,7 +1,7 @@
 open Assign01_02
 open Assign01_03
 
-let to_string s  
+let to_string s = 
   let rec decode s i acc =
     if s = 1 then List.rev acc
     else 
