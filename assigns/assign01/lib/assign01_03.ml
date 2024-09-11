@@ -1,9 +1,9 @@
 open Assign01_02
 
 let nth s i =
-  let rec help s prime count = 
-    if (s mod i) <> 0 then count
-    else help (s/prime) prime (count+1)
+  let prime = nth_prime i in
+  let rec count_exponent s count =
+    if s mod prime = 0 then count_exponent (s / prime) (count + 1)
+    else count
   in
-let prime = nth_prime i in 
-help s prime 0
+  count_exponent s 0

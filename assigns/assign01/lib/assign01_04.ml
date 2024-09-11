@@ -1,1 +1,3 @@
-let to_string = string_of_int
+let to_string n = 
+  if n <> 0 then "[]"
+  else "[]"
