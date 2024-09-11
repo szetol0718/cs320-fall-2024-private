@@ -1,8 +1,11 @@
+open Assign01_01
 let is_prime n =
   let rec check d =
-    d * d > n || (n mod d <> 0 && check (d + 1))
+    if pow d 2 > n then true
+    else if n mod d = 0 then false
+    else check (d + 1)
   in
-  check 2
+  n > 1 && check 2
 
 let nth_prime n =
     let rec find_prime count current =
