@@ -9,7 +9,7 @@ let is_prime n =
 
 let nth_prime n =
     let rec find_prime count current =
-      if count = n then current
+      if count = n && is_prime current then current
       else if is_prime current then find_prime (count + 1) (current + 1)
       else find_prime count (current + 1)
     in
