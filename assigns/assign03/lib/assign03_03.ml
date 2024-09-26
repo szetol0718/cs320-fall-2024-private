@@ -16,14 +16,16 @@ let rec collect_terminals t =
   | Node children -> flatten (List.map collect_terminals children)
 
 (* Recursive helper function to collapse a tree to a specified height *)
-let rec collapse_helper h current_height t =
+let rec collapse_helper target_height current_height t =
   match t with
   | Leaf _ -> t
   | Node children ->
-      if current_height = h - 1 then
-        Node (collect_terminals t)  (* Collapse at the correct height *)
+      if current_height = target_height - 1 then
+        (* Replace the children of the current node with terminal elements *)
+        Node (flatten (List.map collect_terminals children))
       else
-        Node (List.map (collapse_helper h (current_height + 1)) children)
+        (* Continue traversing the tree *)
+        Node (List.map (collapse_helper target_height (current_height + 1)) children)
 
 (* Main collapse function *)
 let collapse h t =
@@ -31,6 +33,7 @@ let collapse h t =
     t
   else
     collapse_helper h 0 t
+
 
 
 
