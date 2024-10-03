@@ -1,31 +1,27 @@
-
-let rec compute_lifespan f s pred step =
-  if pred s then step - 1 (* If pred is true, return the number of successful steps *)
-  else compute_lifespan f (f s) pred (step + 1)
-
-
+(* Helper function to compute the lifespan of a function f *)
 let lifespan f start pred =
-  try
-    Some (compute_lifespan f start pred 0) (* We start with step count as 0 *)
-  with
-  | Stack_overflow -> None (* Handle infinite lifespan case gracefully *)
+  let rec aux s steps =
+    if pred s then steps
+    else aux (f s) (steps + 1)
+  in
+  aux start 0
 
-
+(* Function to find the last function standing *)
 let last_function_standing funcs start pred =
-  let rec find_max_func funcs max_lifespan max_func =
+  let rec find_max_func funcs current_max_lifespan max_func =
     match funcs with
-    | [] -> max_func (* Return the current maximum function when list is empty *)
+    | [] -> max_func
     | f :: rest ->
-      match lifespan f start pred with
-      | None -> find_max_func rest max_lifespan max_func (* Skip functions with infinite lifespan *)
-      | Some lspan ->
-        if lspan > max_lifespan then
-          find_max_func rest lspan (Some f) (* Update maximum lifespan and function *)
-        else if lspan = max_lifespan then
-          find_max_func rest max_lifespan None (* Conflict: multiple functions with same lifespan *)
-        else
-          find_max_func rest max_lifespan max_func
+      let lspan = lifespan f start pred in
+      if lspan > current_max_lifespan then
+        find_max_func rest lspan (Some f)  (* Update max function *)
+      else if lspan = current_max_lifespan then
+        find_max_func rest current_max_lifespan None  (* Found a tie *)
+      else
+        find_max_func rest current_max_lifespan max_func
   in
   match funcs with
-  | [] -> None (* Return None if the list of functions is empty *)
+  | [] -> None  (* No functions to check *)
   | _ -> find_max_func funcs (-1) None
+
+  
